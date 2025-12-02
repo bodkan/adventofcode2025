@@ -48,9 +48,12 @@ rotate_all <- function(start, rotations) {
 # example data test
 
 example_rotations <- read_rotations("example")
-
 example_states <- rotate_all(start = START_STATE, rotations = example_rotations)
+
 example_result1 <- sum(example_states == 0)
+
+# sanity check for later refactorings
+stopifnot(example_result1 == 3)
 
 cat("Part 1, example data:", example_result1, "\n")
 
@@ -58,9 +61,12 @@ cat("Part 1, example data:", example_result1, "\n")
 # full data run
 
 full_rotations <- read_rotations("full")
-
 full_states <- rotate_all(start = START_STATE, rotations = full_rotations)
+
 full_result1 <- sum(full_states == 0)
+
+# sanity check for later refactorings
+stopifnot(full_result1 == 1102)
 
 cat("Part 1, full data:", full_result1, "\n")
 
@@ -118,7 +124,11 @@ rotate_all <- function(start, rotations) {
 
 example_states <- rotate_all(start = START_STATE, rotations = example_rotations)
 example_crosses <- sapply(example_states, `[[`, "distance") %/% DIAL_SIZE
+
 example_result2 <- sum(example_crosses)
+
+# sanity check for later refactorings
+stopifnot(example_result2 == 6)
 
 cat("Part 2, example data:", example_result2, "\n")
 
@@ -127,6 +137,10 @@ cat("Part 2, example data:", example_result2, "\n")
 
 full_states <- rotate_all(start = START_STATE, rotations = full_rotations)
 full_crosses <- sapply(full_states, `[[`, "distance") %/% DIAL_SIZE
+
 full_result2 <- sum(full_crosses)
+
+# sanity check for later refactorings
+stopifnot(full_result2 == 6175)
 
 cat("Part 2, full data:", full_result2, "\n")
