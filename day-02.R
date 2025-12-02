@@ -51,11 +51,11 @@ invalidity_check1 <- function(x) {
 # Loop over all product IDs within all ranges in the data set and detect those
 # which are invalid
 find_invalid1 <- function(ranges) {
-  parallel::mclapply(ranges, function(range) {
+  lapply(ranges, function(range) {
     start <- range[1]
     end <- range[2]
     Filter(invalidity_check1, seq(start, end))
-  }, mc.cores = parallel::detectCores()) |> unlist()
+  }) |> unlist()
 }
 
 ########################################
@@ -154,10 +154,10 @@ invalidity_check2 <- function(x, substring_lookup) {
 # Loop over all product IDs within all ranges in the data set and detect those
 # which are invalid
 find_invalid2 <- function(ranges, substring_lookup) {
-  parallel::mclapply(ranges, function(range) {
+  lapply(ranges, function(range) {
     sequence <- seq(range[1], range[2])
     Filter(function(id) { invalidity_check2(id, substring_lookup) }, sequence)
-  }, mc.cores = parallel::detectCores()) |> unlist()
+  }) |> unlist()
 }
 
 ########################################
