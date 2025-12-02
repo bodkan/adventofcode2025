@@ -15,9 +15,7 @@ START_STATE <- 50
 #
 # This representation encodes the full information about transitions
 # that happen in the modulo 100 "state space".
-read_rotations <- function(kind = c("full", "example")) {
-  kind <- match.arg(kind)
-
+read_rotations <- function(kind) {
   rotations <-
     readLines(get_path(DAY, kind)) |>
     sapply(function(line) {
