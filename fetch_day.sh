@@ -5,6 +5,11 @@ if [[ $# -ne 1 ]]; then
     exit
 fi
 
+if [ ! -f SESSION ]; then
+    echo "Missing SESSION file with the Advent of Code session cookie"
+    exit
+fi
+
 year=2025
 day_number=$1
 
