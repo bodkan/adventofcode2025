@@ -57,8 +57,7 @@ compute_total <- function(batteries) {
 # example data test
 
 example_banks <- read_banks("example")
-
-example_result1 <- lapply(example_banks, pick_n, n = 2) |> sapply(compute_total) |> sum()
+example_result1 <- example_banks |> lapply(pick_n, n = 2) |> sapply(compute_total) |> sum()
 
 # sanity check for later refactorings
 stopifnot(example_result1 == 357)
@@ -69,7 +68,7 @@ cat("Part 1, example data:", format(example_result1, scientific = FALSE), "\n")
 # full data run
 
 full_banks <- read_banks("full")
-full_result1 <- lapply(full_banks, pick_n, n = 2) |> sapply(compute_total) |> sum()
+full_result1 <- full_banks |> lapply(pick_n, n = 2) |> sapply(compute_total) |> sum()
 
 # sanity check for later refactorings
 stopifnot(full_result1 == 17443)
@@ -86,7 +85,7 @@ cat("-------------\n")
 # example data test
 
 example_banks <- read_banks("example")
-example_result2 <- lapply(example_banks, pick_n, n = 12) |> sapply(compute_total) |> sum()
+example_result2 <- example_banks |> lapply(pick_n, n = 12) |> sapply(compute_total) |> sum()
 
 # sanity check for later refactorings
 stopifnot(example_result2 == 3121910778619)
@@ -97,7 +96,7 @@ cat("Part 2, example data:", format(example_result2, scientific = FALSE), "\n")
 # full data run
 
 full_banks <- read_banks("full")
-full_result2 <- lapply(full_banks, pick_n, n = 12) |> sapply(compute_total) |> sum()
+full_result2 <- full_banks |> lapply(pick_n, n = 12) |> sapply(compute_total) |> sum()
 
 # sanity check for later refactorings
 stopifnot(full_result2 == 172167155440541)
