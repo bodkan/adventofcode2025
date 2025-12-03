@@ -32,13 +32,14 @@ find_largest <- function(n, i, available) {
   if (i == 1) {
     return(available[1])
   } else {
-    # the i-th digit of the final picked battery total value cannot be further
-    # "into" the entire bank than at the index (n - i + 1), and because the
+    # the i-th digit of the picked maximum battery total value cannot be further
+    # "into" the entire battery bank than at index (n - i + 1), and because the
     # indices are sorted by the corresponding battery values, the largest
-    # such value is again at the first index
+    # such value is again at the first position of the available indices
     picked <- available[available <= n - i + 1][1]
 
-    # descent recursively to find the following indices
+    # descent recursively to find the following indices, ensuring that the
+    # index of the next picked battery is larger than the one currently picked
     return(c(picked, find_largest(n, i - 1, available[available > picked])))
   }
 }
