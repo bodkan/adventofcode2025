@@ -49,3 +49,5 @@ full_result2 <- NA
 # stopifnot(full_result2 == )
 
 cat("Part 2, full data:", full_result2, "\n")
+
+cat("-------------\n")
