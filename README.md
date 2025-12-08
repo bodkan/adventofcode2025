@@ -9,6 +9,10 @@ nothing else but base R. No packages!
 - [Day 1 puzzle](https://adventofcode.com/2025/day/1) - [my solution](day-01.R)
 - [Day 2 puzzle](https://adventofcode.com/2025/day/2) - [my solution](day-02.R)
 - [Day 3 puzzle](https://adventofcode.com/2025/day/3) - [my solution](day-03.R)
+- [Day 4 puzzle](https://adventofcode.com/2025/day/4) - [my solution](day-04.R)
+- [Day 5 puzzle](https://adventofcode.com/2025/day/5) - [my solution](day-05.R)
+- [Day 6 puzzle](https://adventofcode.com/2025/day/6) - [my solution](day-06.R)
+- [Day 7 puzzle](https://adventofcode.com/2025/day/7) - [my solution](day-07.R)
 
 ### Why on Earth would you use R for this?
 
