@@ -13,12 +13,14 @@ read_boxes <- function(kind) {
 # Part 1
 ########################################
 
+# Compute pairwise distances as an upper-triangular matrix
 compute_distances <- function(boxes) {
   d <- as.matrix(dist(boxes))
   d[lower.tri(d, diag = TRUE)] <- Inf
   d
 }
 
+# Find indices of the two closest junction boxes
 find_closest <- function(d) {
   which(d == min(d), arr.ind = TRUE)
 }
@@ -58,7 +60,10 @@ connect_n <- function(boxes, n) {
 
   for (i in seq_len(n)) {
     cat(i, "\r")
+
     pair <- find_closest(distances)
+
+    # remove the pair from further processing
     distances[pair] <- Inf
 
     clusters <- join_pair(pair, clusters)
@@ -113,6 +118,8 @@ connect_all <- function(boxes) {
     cat(i, "\r")
 
     pair <- find_closest(distances)
+
+    # remove the pair from further processing
     distances[pair] <- Inf
 
     clusters <- join_pair(pair, clusters)
