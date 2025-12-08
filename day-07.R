@@ -127,5 +127,3 @@ full_result2 <- count_timelines(beams, hits, counts)
 stopifnot(full_result2 == 73007003089792)
 
 cat("Part 2, full data:", full_result2, "\n")
-
-cat("-------------\n")

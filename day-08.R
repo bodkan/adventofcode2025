@@ -156,5 +156,3 @@ full_result2 <- prod(full_last[, 1])
 stopifnot(full_result2 == 7017750530)
 
 cat("Part 2, full data:", full_result2, "\n")
-
-cat("-------------\n")

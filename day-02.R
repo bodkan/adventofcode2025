@@ -187,5 +187,3 @@ full_result2 <- sum(full_invalid2)
 stopifnot(full_result2 == 50793864718)
 
 cat("Part 2, full data:", full_result2, "\n")
-
-cat("-------------\n")

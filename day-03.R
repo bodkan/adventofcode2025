@@ -103,5 +103,3 @@ full_result2 <- full_banks |> lapply(pick_n, n = 12) |> sapply(compute_total) |>
 stopifnot(full_result2 == 172167155440541)
 
 cat("Part 2, full data:", format(full_result2, scientific = FALSE), "\n")
-
-cat("-------------\n")
