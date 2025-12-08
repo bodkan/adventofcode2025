@@ -132,6 +132,7 @@ connect_all <- function(boxes) {
 example_last <- connect_all(example_boxes)
 example_result2 <- prod(example_last[, 1])
 
+# sanity check for later refactorings
 stopifnot(example_result2 == 25272)
 
 cat("Part 2, example data:", example_result2, "\n")
@@ -142,6 +143,7 @@ cat("Part 2, example data:", example_result2, "\n")
 full_last <- connect_all(full_boxes)
 full_result2 <- prod(full_last[, 1])
 
+# sanity check for later refactorings
 stopifnot(full_result2 == 7017750530)
 
 cat("Part 2, full data:", full_result2, "\n")
