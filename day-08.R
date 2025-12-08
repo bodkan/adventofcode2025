@@ -40,15 +40,17 @@ join_pair <- function(pair, clusters) {
   key1 <- Filter(\(x) length(intersect(clusters[[x]], pair[1])), names(clusters))
   key2 <- Filter(\(x) length(intersect(clusters[[x]], pair[2])), names(clusters))
 
-  # extract the box numbers from the hash map, removing both entries
-  elems1 <- clusters[[key1]]; clusters[[key1]] <- NULL
-  elems2 <- clusters[[key2]]; clusters[[key2]] <- NULL
+  if (key1 != key2) {
+    # extract the box numbers from the hash map, removing both entries
+    elems1 <- clusters[[key1]]; clusters[[key1]] <- NULL
+    elems2 <- clusters[[key2]]; clusters[[key2]] <- NULL
 
-  # add a new hash map element with the union of both (the key being composed
-  # by numbers of all boxes joined by '_')
-  elems <- sort(c(elems1, elems2))
-  key <- paste(elems, collapse = "_")
-  clusters[[key]] <- elems
+    # add a new hash map element with the union of both (the key being composed
+    # by numbers of all boxes joined by '_')
+    elems <- sort(c(elems1, elems2))
+    key <- paste(elems, collapse = "_")
+    clusters[[key]] <- elems
+  }
 
   clusters
 }
