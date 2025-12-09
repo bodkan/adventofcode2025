@@ -29,10 +29,16 @@ if grep -Eq '404 Not Found|endpoint' $data_path; then
     rm $data_path
     exit 1
 else
+    echo "Full data saved as ${data_path}"
+fi
+
+if [ ! -f $script_path ]; then
     sed "s/DAY <- NA/DAY <- ${day_number}/" template.R > $script_path
     echo "Solution script saved as ${script_path}"
-    echo "Full data saved as ${data_path}"
-    touch $example_path
-    echo "Put example data in ${example_path}"
-    vi ${example_path}
+else
+    echo "Script ${script_path} already present"
 fi
+
+touch $example_path
+echo "Example data placed in ${example_path}"
+vi ${example_path}
