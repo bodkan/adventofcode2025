@@ -13,7 +13,7 @@ read_machines <- function(kind) {
         strsplit(gsub("\\(|\\)", "", grep("\\(", x, value = TRUE)), ",") |>
         lapply(\(i) { buttons <- init; buttons[as.integer(i) + 1] <- TRUE; buttons } )
       joltage <-
-        strsplit(gsub("\\{|\\}", "", grep("\\{", x, value = TRUE)), ",") |>
+        strsplit(gsub("\\{|\\}", "", grep("\\{", x, value = TRUE)), ",")[[1]] |>
         lapply(as.integer)
       list(init = init, final = final, buttons = buttons, joltage = joltage)
     })
