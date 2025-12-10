@@ -12,7 +12,10 @@ read_machines <- function(kind) {
       buttons <-
         strsplit(gsub("\\(|\\)", "", grep("\\(", x, value = TRUE)), ",") |>
         lapply(\(i) { buttons <- init; buttons[as.integer(i) + 1] <- TRUE; buttons } )
-      list(init = init, final = final, buttons = buttons)
+      joltage <-
+        strsplit(gsub("\\{|\\}", "", grep("\\{", x, value = TRUE)), ",") |>
+        lapply(as.integer)
+      list(init = init, final = final, buttons = buttons, joltage = joltage)
     })
   machines
 }
@@ -21,13 +24,13 @@ read_machines <- function(kind) {
 # Part 1
 ########################################
 
-push_buttons <- function(lights, buttons) {
+switch_lights <- function(lights, buttons) {
   xor(lights, buttons)
 }
 
 key <- function(lights) paste(as.integer(lights), collapse = "")
 
-search <- function(machine) {
+search_lights <- function(machine) {
   init <- machine$init
   final <- machine$final
   buttons <- machine$buttons
@@ -45,7 +48,7 @@ search <- function(machine) {
 
     for (b in buttons) {
       # create a new lights configuration
-      next_lights <- push_buttons(lights, b)
+      next_lights <- switch_lights(lights, b)
 
       # return the count of presses needed to reach the final configuration
       if (all(next_lights == final)) {
@@ -66,7 +69,7 @@ search <- function(machine) {
 # example data test
 
 example_machines <- read_machines("example")
-example_result1 <- sum(sapply(example_machines, search))
+example_result1 <- sum(sapply(example_machines, search_lights))
 
 stopifnot(example_result1 == 7)
 
@@ -77,7 +80,7 @@ cat("Part 1, example data:", example_result1, "\n")
 
 full_machines <- read_machines("full")
 
-full_result1 <- sum(sapply(full_machines, search))
+full_result1 <- sum(sapply(full_machines, search_lights))
 
 # sanity check for later refactorings
 stopifnot(full_result1 == 432)
