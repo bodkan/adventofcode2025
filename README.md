@@ -14,6 +14,7 @@ nothing else but base R. No packages!
 - [Day 6 puzzle](https://adventofcode.com/2025/day/6) - [my solution](day-06.R)
 - [Day 7 puzzle](https://adventofcode.com/2025/day/7) - [my solution](day-07.R)
 - [Day 8 puzzle](https://adventofcode.com/2025/day/8) - [my solution](day-08.R)
+- [Day 9 puzzle](https://adventofcode.com/2025/day/9) - [my solution](day-09.R)
 
 ### Why on Earth would you use R for this?
 
