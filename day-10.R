@@ -7,15 +7,23 @@ read_machines <- function(kind) {
     readLines(get_path(DAY, kind)) |>
     lapply(\(x) strsplit(x, " ")[[1]]) |>
     lapply(\(x) {
-      final <- strsplit(gsub("\\[|\\]", "", x[1]), "")[[1]] == "#"
-      init <- rep(FALSE, length(final))
+      final_lights <- strsplit(gsub("\\[|\\]", "", x[1]), "")[[1]] == "#"
+      init_lights <- rep(FALSE, length(final_lights))
+
+      final_joltage <- as.integer(strsplit(gsub("\\{|\\}", "", grep("\\{", x, value = TRUE)), ",")[[1]])
+      init_joltage <- rep(0, length(final_lights))
+
       buttons <-
         strsplit(gsub("\\(|\\)", "", grep("\\(", x, value = TRUE)), ",") |>
-        lapply(\(i) { buttons <- init; buttons[as.integer(i) + 1] <- TRUE; buttons } )
-      joltage <-
-        strsplit(gsub("\\{|\\}", "", grep("\\{", x, value = TRUE)), ",")[[1]] |>
-        lapply(as.integer)
-      list(init = init, final = final, buttons = buttons, joltage = joltage)
+        lapply(\(i) { buttons <- init_lights; buttons[as.integer(i) + 1] <- TRUE; buttons } )
+
+      list(
+        init_lights = init_lights,
+        final_lights = final_lights,
+        init_joltage = init_joltage,
+        final_joltage = final_joltage,
+        buttons = buttons
+      )
     })
   machines
 }
@@ -31,8 +39,8 @@ switch_lights <- function(lights, buttons) {
 key <- function(lights) paste(as.integer(lights), collapse = "")
 
 search_lights <- function(machine) {
-  init <- machine$init
-  final <- machine$final
+  init <- machine$init_lights
+  final <- machine$final_lights
   buttons <- machine$buttons
 
   # initialize queue with the starting lights configuration of the current machine
