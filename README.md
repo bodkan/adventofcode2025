@@ -24,13 +24,11 @@ Several reasons. First, R is my favourite programming language. There, I said it
 
 More accurately, my original plan was to use the 2025 edition to learn an array
 programming language (maybe APL), especially given the more relaxed pace of
-Advent of Code this year. Oh how naive I was. There was absolutely zero chance
-that I would manage to learn a challenging new programming language while
-battling with algorithms at the same time.
-
-Anyway, R being a vectorized functional programming language is not _that_ far
+Advent of Code this year with fewer puzzles. Oh how naive I was. There was
+absolutely zero chance that I would manage to learn a challenging new
+programming language while battling with algorithms at the same time.
+Anyway, being a vectorized functional programming language, R is not _that_ far
 off, so I decided to stick with  it
-[again](https://github.com/bodkan/adventofcode2021). Fair warning, in the spirit
-of vectorization and functional programming in R, I often push the "no-loops"
-attitude to the extreme. My solutions are silly and weird. Whenever I asked
-myself "I wonder if I could do it _like that_?", I just went for it.
+[again](https://github.com/bodkan/adventofcode2021). Fair warning: at every point
+I focused on maximizing fun and _"I wonder if I could do it like that?"_ attitude
+over efficiency.
