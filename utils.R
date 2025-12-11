@@ -30,3 +30,25 @@ draw_rectangle <- function(r, outline) {
 
   draw_outline(outline, clear = FALSE)
 }
+
+# A couple of debugging helpers for Day 9 ---------------------------------
+
+suppressPackageStartupMessages({
+  library(igraph)
+  library(ggraph)
+  library(tidygraph)
+})
+
+plot_graph <- function(pairs, degrees = 0) {
+  g <- graph_from_edgelist(pairs, directed = TRUE)
+  key_nodes <- c("svr", "out", "fft", "dac", "you")
+  as_tbl_graph(g) |>
+    mutate(name = ifelse(degree(g) > degrees | name %in% key_nodes, name, NA),
+           color = name %in% key_nodes) |>
+    ggraph(layout = "kk") +
+    geom_edge_fan(alpha = 0.3, color = "gray") +
+    geom_node_text(aes(label = name, color = color), repel = TRUE) +
+    scale_color_manual(values = c("red", "darkblue")) +
+    theme_void() +
+    theme(legend.position = "none")
+}
