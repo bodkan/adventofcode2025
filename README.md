@@ -18,6 +18,7 @@ an obvious integer linear programming problem in Day 10, Part 2.)
 - [Day 9 puzzle](https://adventofcode.com/2025/day/9) - [my solution](day-09.R)
 - [Day 10 puzzle](https://adventofcode.com/2025/day/10) - [my solution](day-10.R)
 - [Day 11 puzzle](https://adventofcode.com/2025/day/11) - [my solution](day-11.R)
+- [Day 12 puzzle](https://adventofcode.com/2025/day/12) - [my solution](day-12.R)
 
 ### Why on Earth would you use R for this?
 
