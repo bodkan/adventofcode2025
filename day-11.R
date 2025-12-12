@@ -31,11 +31,12 @@ read_devices <- function(x, file) {
 ########################################
 
 # Find all paths between start and end nodes in a graph represented by
-# a given matrix of all posible edges
+# a given matrix of all possible edges
 count_paths <- function(start, end, pairs) {
-  # cache for paths following already explored nodes
+  # cache for paths following already explored nodes (environments in R
+  # are the only object type which is modified in place!)
   cache <- new.env()
-  cache$cache <- list()
+  cache$nodes <- list()
 
   recursive_search(start, end, pairs, cache)
 }
@@ -43,17 +44,19 @@ count_paths <- function(start, end, pairs) {
 # Recursively find a path from start to end
 recursive_search <- function(start, end, pairs, cache) {
   if (start == end) {
+    # return from the final destination if it's been reached
     return(1)
   } else if (!is.null(cache$cache[[start]])) {
-    return(cache$cache[[start]])
-  }
-  else{
+    # if we visited this node before, no need to recurse from it further,
+    # just get the count of paths from it discovered previously
+    return(cache$nodes[[start]])
+  } else {
+    # sum up possible paths from the current node
     count <- 0
     neighbors <- as.vector(pairs[pairs[, "from"] == start, "to"])
-    for (n in neighbors) {
-      count <- count + recursive_search(n, end, pairs, cache)
-    }
-    cache$cache[[start]] <- count
+    count <- sum(sapply(neighbors, \(n) recursive_search(n, end, pairs, cache)))
+    # add the count to the cache in case we reach it again
+    cache$nodes[[start]] <- count
     return(count)
   }
 }
