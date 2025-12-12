@@ -32,60 +32,37 @@ read_devices <- function(x, file) {
 
 # Find all paths between start and end nodes in a graph represented by
 # a given matrix of all posible edges
-find_paths <- function(start, end, pairs) {
+count_paths <- function(start, end, pairs) {
   # cache for paths following already explored nodes
   cache <- new.env()
   cache$cache <- list()
 
-  paths <- recursive_search(start, end, pairs, cache)
-  result <- flatten_paths(c(), paths)
-
-  result
+  recursive_search(start, end, pairs, cache)
 }
 
 # Recursively find a path from start to end
 recursive_search <- function(start, end, pairs, cache) {
-  cat("Exploring paths from node", start, "(cache length ", length(cache$cache), "/", length(unique(unlist(pairs))), ")\n")
-  if (start == "zka") browser()
   if (start == end) {
-    cat("Found path!\n")
-    return(start)
+    return(1)
   } else if (!is.null(cache$cache[[start]])) {
-    cat("Extracting node", start, "from the cache\n")
     return(cache$cache[[start]])
   }
   else{
-    results <- list()
+    count <- 0
     neighbors <- as.vector(pairs[pairs[, "from"] == start, "to"])
     for (n in neighbors) {
-      cat("Exploring neighbor", n, "of the node", start, "\n")
-      results[[length(results) + 1]] <- c(start, recursive_search(n, end, pairs, cache))
+      count <- count + recursive_search(n, end, pairs, cache)
     }
-    cache$cache[[start]] <- results
-    cat("Saving node", start, "to the cache (cache length ", length(cache$cache), "/", length(unique(unlist(pairs))), ")\n")
-    return(results)
+    cache$cache[[start]] <- count
+    return(count)
   }
-}
-
-# Because the discovered paths are represented by nested lists due to the
-# recursive nature of the search algorithm, flatten them at the end
-flatten_paths <- function(path, nested) {
-  if (length(nested) == 0) {
-    return(list(path))
-  }
-  results <- list()
-  for (subpath in nested) {
-    results <- append(results, flatten_paths(c(path, subpath[[1]]), subpath[-1]))
-  }
-  return(results)
 }
 
 ########################################
 # example data test
 
 example_pairs <- read_devices("example", file = TRUE)
-example_paths <- find_paths(example_pairs, start = "you", end = "out")
-example_result1 <- length(example_paths)
+example_result1 <- count_paths(example_pairs, start = "you", end = "out")
 
 # sanity check for later refactorings
 stopifnot(example_result1 == 5)
@@ -96,8 +73,7 @@ cat("Part 1, example data:", example_result1, "\n")
 # full data run
 
 full_pairs <- read_devices("full", file = TRUE)
-full_paths <- find_paths(full_pairs, start = "you", end = "out")
-full_result1  <- length(full_paths)
+full_result1  <- count_paths(full_pairs, start = "you", end = "out")
 
 # sanity check for later refactorings
 stopifnot(full_result1 == 733)
@@ -109,6 +85,22 @@ cat("-------------\n")
 ########################################
 # Part 2
 ########################################
+
+# Reuse the straightforward DFS solution for Part 1 to solve Part 2
+# by decomposing the problem into a sequence of possible paths, either
+# through fft -> dac, or through dac -> fft
+count_linked <- function(pairs) {
+  (
+    count_paths(start = "svr", end = "fft", pairs) *
+    count_paths(start = "fft", end = "dac", pairs) *
+    count_paths(start = "dac", end = "out", pairs)
+  ) +
+  (
+    count_paths(start = "svr", end = "dac", pairs) *
+    count_paths(start = "dac", end = "fft", pairs) *
+    count_paths(start = "fft", end = "out", pairs)
+  )
+}
 
 ########################################
 # example data test
@@ -127,10 +119,7 @@ fff: ggg hhh
 ggg: out
 hhh: out", file = FALSE)
 
-# plot_graph(example_pairs2)
-
-example_paths2 <- find_paths(start = "svr", end = "out", example_pairs2)
-example_result2 <- length(Filter(\(path) "dac" %in% path && "fft" %in% path, example_paths2))
+example_result2 <- count_linked(example_pairs2)
 
 stopifnot(example_result2 == 2)
 
@@ -139,12 +128,12 @@ cat("Part 2, example data:", example_result2, "\n")
 ########################################
 # full data run
 
-plot_graph(full_pairs, 10)
-full_paths <- find_paths(start = "svr", end = "out", full_pairs)
-# full_result2 <- length(Filter(\(path) "dac" %in% path && "fft" %in% path, full_paths))
+# plot_graph(full_pairs, 10)
+full_result2 <- count_linked(full_pairs)
 
-# # stopifnot(full_result2 == )
-#
-# cat("Part 2, full data:", full_result2, "\n")
-#
-# cat("-------------\n")
+stopifnot(full_result2 == 290219757077250)
+
+options(scipen = 999)
+cat("Part 2, full data:", full_result2, "\n")
+
+cat("-------------\n")
