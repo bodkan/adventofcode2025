@@ -46,15 +46,16 @@ recursive_search <- function(start, end, pairs, cache) {
   if (start == end) {
     # return from the final destination if it's been reached
     return(1)
-  } else if (!is.null(cache$cache[[start]])) {
+  } else if (!is.null(cache$nodes[[start]])) {
     # if we visited this node before, no need to recurse from it further,
     # just get the count of paths from it discovered previously
     return(cache$nodes[[start]])
   } else {
-    # sum up possible paths from the current node
+    # sum up possible paths from the descendants of the current node
     count <- 0
     neighbors <- as.vector(pairs[pairs[, "from"] == start, "to"])
-    count <- sum(sapply(neighbors, \(n) recursive_search(n, end, pairs, cache)))
+    for (n in neighbors)
+      count <- count + recursive_search(n, end, pairs, cache)
     # add the count to the cache in case we reach it again
     cache$nodes[[start]] <- count
     return(count)
