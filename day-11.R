@@ -30,40 +30,51 @@ read_devices <- function(x, file) {
 # Part 1
 ########################################
 
-find_paths <- function(pairs, start, end) {
-  solutions <- list()
+# Find all paths between start and end nodes in a graph represented by
+# a given matrix of all posible edges
+find_paths <- function(start, end, pairs) {
+  # cache for already explored nodes using a global list as a hash of sorts
+  cache <- new.env()
+  cache$cache <- list()
 
-  queue <- list(c(start))
+  paths <- recursive_search(start, end, pairs, cache)
+  result <- flatten_paths(c(), paths)
 
-  while (length(queue) > 0) {
-    cat("Queue length:", length(queue), "\r")
-    # take the next path out of the queue
-    path <- queue[[1]]; queue[[1]] <- NULL
+  result
+}
 
-    # get the last node of that path (i.e., the current node)
-    node <- path[[length(path)]]
-
-    # get all neighbors of the current node
-    neighbors <- unlist(pairs[pairs[, "from"] == node, "to", drop = FALSE])
-
-    for (n in neighbors) {
-      # add the neighbor to the path
-      p <- append(path, n)
-
-      # if we reached the final destination, add the path to the solutions
-      if (n == end) {
-        solutions <- append(solutions, list(p))
-        next
-      } else {
-        # otherwise keep exploring (but only if we wouldn't visit an
-        # already visited node, i.e. forming a loop)
-        if (!n %in% path)
-          queue <- append(queue, list(p))
-      }
-    }
+# Recursively find a path from start to end
+recursive_search <- function(start, end, pairs, cache) {
+  if (start == end) {
+    # cat("Found path!\n")
+    return(start)
   }
+  else if (!is.null(cache$cache[[start]])) {
+    # cat("Getting node", node, "from the cache\n")
+    return(cache$cache[[start]])
+  }
+  else{
+    results <- list()
+    neighbors <- as.vector(pairs[pairs[, "from"] == start, "to"])
+    for (n in neighbors) {
+      results[[length(results) + 1]] <- c(start, recursive_search(n, end, pairs, cache))
+    }
+    cache$cache[[start]] <- results
+    return(results)
+  }
+}
 
-  solutions
+# Because the discovered paths are represented by nested lists due to the
+# recursive nature of the search algorithm, flatten them at the end
+flatten_paths <- function(path, nested) {
+  if (length(nested) == 0) {
+    return(list(path))
+  }
+  results <- list()
+  for (subpath in nested) {
+    results <- append(results, flatten_paths(c(path, subpath[[1]]), subpath[-1]))
+  }
+  return(results)
 }
 
 ########################################
@@ -91,3 +102,46 @@ stopifnot(full_result1 == 733)
 cat("Part 1, full data:", full_result1, "\n")
 
 cat("-------------\n")
+
+########################################
+# Part 2
+########################################
+
+########################################
+# example data test
+
+example_pairs2 <- read_devices("svr: aaa bbb
+aaa: fft
+fft: ccc
+bbb: tty
+tty: ccc
+ccc: ddd eee
+ddd: hub
+hub: fff
+eee: dac
+dac: fff
+fff: ggg hhh
+ggg: out
+hhh: out", file = FALSE)
+
+# plot_graph(example_pairs2)
+
+example_paths2 <- find_paths(start = "svr", end = "out", example_pairs2)
+example_result2 <- length(Filter(\(path) "dac" %in% path && "fft" %in% path, example_paths2))
+
+stopifnot(example_result2 == 2)
+
+cat("Part 2, example data:", example_result2, "\n")
+
+########################################
+# full data run
+
+# plot_graph(full_pairs, 10)
+# full_paths <- collect_paths(start = "svr", end = "out", full_pairs)
+# full_result2 <- length(Filter(\(path) "dac" %in% path && "fft" %in% path, full_paths))
+
+# # stopifnot(full_result2 == )
+#
+# cat("Part 2, full data:", full_result2, "\n")
+#
+# cat("-------------\n")
