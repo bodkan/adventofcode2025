@@ -31,7 +31,7 @@ draw_rectangle <- function(r, outline) {
   draw_outline(outline, clear = FALSE)
 }
 
-# A couple of debugging helpers for Day 9 ---------------------------------
+# A couple of debugging helpers for Day 11 --------------------------------
 
 suppressPackageStartupMessages({
   library(igraph)
