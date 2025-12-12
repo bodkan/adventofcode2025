@@ -45,21 +45,24 @@ find_paths <- function(start, end, pairs) {
 
 # Recursively find a path from start to end
 recursive_search <- function(start, end, pairs, cache) {
+  cat("Exploring paths from node", start, "(cache length ", length(cache$cache), "/", length(unique(unlist(pairs))), ")\n")
+  if (start == "zka") browser()
   if (start == end) {
-    # cat("Found path!\n")
+    cat("Found path!\n")
     return(start)
-  }
-  else if (!is.null(cache$cache[[start]])) {
-    # cat("Getting node", node, "from the cache\n")
+  } else if (!is.null(cache$cache[[start]])) {
+    cat("Extracting node", start, "from the cache\n")
     return(cache$cache[[start]])
   }
   else{
     results <- list()
     neighbors <- as.vector(pairs[pairs[, "from"] == start, "to"])
     for (n in neighbors) {
+      cat("Exploring neighbor", n, "of the node", start, "\n")
       results[[length(results) + 1]] <- c(start, recursive_search(n, end, pairs, cache))
     }
     cache$cache[[start]] <- results
+    cat("Saving node", start, "to the cache (cache length ", length(cache$cache), "/", length(unique(unlist(pairs))), ")\n")
     return(results)
   }
 }
@@ -136,8 +139,8 @@ cat("Part 2, example data:", example_result2, "\n")
 ########################################
 # full data run
 
-# plot_graph(full_pairs, 10)
-# full_paths <- collect_paths(start = "svr", end = "out", full_pairs)
+plot_graph(full_pairs, 10)
+full_paths <- find_paths(start = "svr", end = "out", full_pairs)
 # full_result2 <- length(Filter(\(path) "dac" %in% path && "fft" %in% path, full_paths))
 
 # # stopifnot(full_result2 == )
