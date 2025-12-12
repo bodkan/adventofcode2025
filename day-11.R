@@ -33,7 +33,7 @@ read_devices <- function(x, file) {
 # Find all paths between start and end nodes in a graph represented by
 # a given matrix of all posible edges
 find_paths <- function(start, end, pairs) {
-  # cache for already explored nodes using a global list as a hash of sorts
+  # cache for paths following already explored nodes
   cache <- new.env()
   cache$cache <- list()
 
