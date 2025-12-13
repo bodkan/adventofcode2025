@@ -29,8 +29,8 @@ programming language (maybe APL), especially given the more relaxed pace of
 Advent of Code this year with fewer puzzles. Oh how naive I was. There was
 absolutely zero chance that I would manage to learn a challenging new
 programming language while battling with algorithms at the same time.
-Anyway, being a vectorized functional programming language, R is not _that_ far
-off, so I decided to stick with  it
-[again](https://github.com/bodkan/adventofcode2021). Fair warning: at every point
-I focused on maximizing fun and _"I wonder if I could do it like that?"_ attitude
-over efficiency.
+Anyway, being a vectorized functional programming language, R is perhaps not
+_that_ far off, so I decided to stick with  it
+[again](https://github.com/bodkan/adventofcode2021). Fair warning if you end up
+looking at my code: at every point I focused on maximizing fun and the attitude
+of _"I wonder if I could do it like that?"_ over pure efficiency.
